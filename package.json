@@ -4,8 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "watch-css": "vite build --watch",
-        "watch": "mix watch"
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "@tailwindcss/aspect-ratio": "^0.4.2",

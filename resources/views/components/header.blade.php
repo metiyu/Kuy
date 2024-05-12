@@ -3,7 +3,7 @@
         <div
             class="max-w-7xl mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-4 lg:px-8 md:justify-start md:space-x-10">
             <div>
-                <a href="#" class="flex">
+                <a href="/" class="flex">
                     <span class="sr-only">Workflow</span>
                     <img class="h-8 w-auto sm:h-10" src="/assets/logotype.png" alt="">
                 </a>
@@ -22,7 +22,7 @@
             </div>
             <div class="hidden md:flex-1 md:flex md:items-center md:justify-between">
                 <nav class="flex space-x-10">
-                    <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">
+                    <a href="/venues" class="text-base font-medium text-gray-500 hover:text-gray-900">
                         Sewa Lapangan
                     </a>
                     <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">

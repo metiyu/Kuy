@@ -1,6 +1,7 @@
-<div class="pt-40">
-    <div class="grid grid-cols-3 p-32">
-        @for ($i = 0; $i < 5; $i++)
+{{-- tidak dgunakan utk sementara --}}
+{{-- <div class="pt-40"> --}}
+    {{-- <div class="grid grid-cols-3 p-32"> --}}
+        {{-- @for ($i = 0; $i < 5; $i++) --}}
             <div class="flex flex-col p-2 mt-3">
                 <a href="https://ayo.co.id/v/lapangan-generasi-baru" class="text-black">
                     <div class="card w-full border-none rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-200">
@@ -34,6 +35,6 @@
                     </div>
                 </a>
             </div>
-        @endfor
-    </div>
-</div>
+        {{-- @endfor --}}
+    {{-- </div> --}}
+{{-- </div> --}}
