@@ -1,7 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 
-const colors = require('tailwindcss/colors')
-
 export default {
     content: [
         "./resources/**/*.blade.php",
@@ -9,15 +7,15 @@ export default {
         "./resources/**/*.vue",
     ],
     theme: {
-        // extend: {},
-        fontFamily: {
-            sans: ["Rubik", "sans-serif"],
-        }
+        extend: {
+            fontFamily: {
+                sans: ["Rubik", "sans-serif"],
+            },
+        },
     },
     plugins: [
-        require('@tailwindcss/forms'),
-        require('@tailwindcss/aspect-ratio'),
-        require('@tailwindcss/typography')
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/aspect-ratio"),
+        require("@tailwindcss/typography"),
     ],
-}
-
+};

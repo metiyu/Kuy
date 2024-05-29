@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-    font-family: "Rubik";
-    src: url("../../public/assets/Rubik-VariableFont_wght.ttf");
+@layer base {
+    @font-face {
+        font-family: "Rubik";
+        src: url("../../public/assets/Rubik-VariableFont_wght.ttf");
+    }
 }

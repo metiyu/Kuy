@@ -10,7 +10,7 @@
                             class="card w-full border-none rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-200">
                             <img src="https://asset.ayo.co.id/image/venue/165528450821896.image_cropper_1655284384009_middle.jpg"
                                 class="w-full h-60 object-cover" alt="Lapangan Generasi Baru">
-                            <div class="p-4">
+                            <div class="p-4 border">
                                 <div>
                                     <p class="text-sm font-medium tracking-wider text-gray-400">Venue</p>
                                 </div>
