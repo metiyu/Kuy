@@ -10,6 +10,10 @@ Route::get('/venues', function () {
     return view('venues');
 });
 
+Route::get('/venue/{name}', function () {
+    return view('venue-detail');
+});
+
 Route::get('/test', function () {
     return view('test');
 });
