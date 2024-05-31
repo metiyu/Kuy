@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transaction_details', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('schedule_id');
             $table->timestamps();
+
+            $table->primary(['transaction_id', 'schedule_id']);
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

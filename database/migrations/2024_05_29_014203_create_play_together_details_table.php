@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('play_together_details', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('play_together_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->primary(['play_together_id', 'user_id']);
+            $table->foreign('play_together_id')->references('id')->on('play_togethers')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

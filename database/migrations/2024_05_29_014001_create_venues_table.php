@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('venues', function (Blueprint $table) {
             $table->id();
-            $table->string('Name');
-            $table->string('Description');
-            $table->string('Location');
-            $table->timestamp('OpenHour');
-            $table->timestamp('CloseHour');
+            $table->string('name');
+            $table->string('description');
+            $table->string('location');
+            $table->time('open_hour')->nullable();
+            $table->time('close_hour')->nullable();
+            $table->unsignedBigInteger('owner_id');
             $table->timestamps();
+
+            $table->foreign('owner_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
