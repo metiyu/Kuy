@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PlayTogetherDetail extends Model
+class PlayTogetherSchedule extends Model
 {
     use HasFactory;
     public function play_together()
@@ -13,8 +13,8 @@ class PlayTogetherDetail extends Model
         return $this->belongsTo(PlayTogether::class, 'play_together_id');
     }
 
-    public function user()
+    public function schedule()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Schedule::class, 'schedule_id');
     }
 }

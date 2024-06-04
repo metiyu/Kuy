@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 
-class TransactionDetailSeeder extends Seeder
+class PlayTogetherScheduleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,11 +16,11 @@ class TransactionDetailSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $transactions = DB::table('transactions')->get();
+        $playTogethers = DB::table('play_togethers')->get();
         $fields = DB::table('fields')->get()->groupBy('venue_id');
         $schedules = DB::table('schedules')->get()->groupBy('field_id');
 
-        foreach ($transactions as $transaction) {
+        foreach ($playTogethers as $playTogether) {
             // Select a random venue
             $venueIds = $fields->keys()->toArray();
             $randomVenueId = $faker->randomElement($venueIds);
@@ -42,8 +42,8 @@ class TransactionDetailSeeder extends Seeder
 
                 // Insert the transaction details
                 foreach ($selectedSchedules as $scheduleId) {
-                    DB::table('transaction_details')->insert([
-                        'transaction_id' => $transaction->id,
+                    DB::table('play_together_schedules')->insert([
+                        'play_together_id' => $playTogether->id,
                         'schedule_id' => $scheduleId,
                         'created_at' => now(),
                         'updated_at' => now(),
@@ -51,5 +51,6 @@ class TransactionDetailSeeder extends Seeder
                 }
             }
         }
+
     }
 }

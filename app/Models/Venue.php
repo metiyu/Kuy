@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Venue extends Model
 {
     use HasFactory;
+    public function fields()
+    {
+        return $this->hasMany(Field::class, 'venue_id');
+    }
 }

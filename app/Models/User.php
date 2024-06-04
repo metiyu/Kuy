@@ -44,4 +44,18 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function play_together_details()
+    {
+        return $this->hasMany(PlayTogetherDetail::class, 'user_id');
+    }
+
+    public function cart_details()
+    {
+        return $this->hasMany(CartDetail::class, 'user_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'user_id');
+    }
 }

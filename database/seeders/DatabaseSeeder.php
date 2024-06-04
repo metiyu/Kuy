@@ -26,7 +26,11 @@ class DatabaseSeeder extends Seeder
             SportSeeder::class,
             FieldSeeder::class,
             TransactionSeeder::class,
-            
+            ScheduleSeeder::class,
+            TransactionDetailSeeder::class,
+            PlayTogetherSeeder::class,
+            PlayTogetherDetailSeeder::class,
+            PlayTogetherScheduleSeeder::class
         ]);
     }
 }
