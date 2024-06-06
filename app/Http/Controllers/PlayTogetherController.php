@@ -13,7 +13,8 @@ class PlayTogetherController extends Controller
      */
     public function index()
     {
-        //
+        $playTogethers = PlayTogether::paginate(15);
+        return view('play-togethers', compact('playTogethers'));
     }
 
     /**

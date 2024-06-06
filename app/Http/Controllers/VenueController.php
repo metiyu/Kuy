@@ -13,7 +13,8 @@ class VenueController extends Controller
      */
     public function index()
     {
-        //
+        $venues = Venue::paginate(15);
+        return view('venues', compact('venues'));
     }
 
     /**
@@ -35,9 +36,10 @@ class VenueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Venue $venue)
+    public function show($id)
     {
-        //
+        $venue = Venue::find($id);
+        return view('venue-detail', compact('venue'));
     }
 
     /**

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->timestamp('start_hour')->nullable();
-            $table->timestamp('end_hour')->nullable();
+            $table->time('start_hour');
+            $table->time('end_hour');
             $table->unsignedBigInteger('field_id');
             $table->timestamps();
 

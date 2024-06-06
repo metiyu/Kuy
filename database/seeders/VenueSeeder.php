@@ -25,7 +25,7 @@ class VenueSeeder extends Seeder
             DB::table('venues')->insert([
                 'name' => $faker->company,
                 'description' => $faker->sentence,
-                'location' => $faker->address,
+                'location' => $faker->cityPrefix.', '.$faker->city,
                 'open_hour' => $openHours[$openHourIndex],
                 'close_hour' => $closeHours[$closeHourIndex],
                 'owner_id' => $faker->numberBetween(1, 20), // Assuming you have 10 users

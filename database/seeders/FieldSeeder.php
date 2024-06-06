@@ -28,20 +28,23 @@ class FieldSeeder extends Seeder
             $numFields = $faker->numberBetween(2, 5);
             $usedSportIds = [];
 
+            $venueSportIds = $faker->randomElements($sportIds, $faker->numberBetween(1, 3));
+
             for ($i = 0; $i < $numFields; $i++) {
                 $name = 'Hall ' . ($i + 1);
                 $isIndoor = $faker->boolean;
                 $price = $faker->numberBetween(3, 12) * 10000;
                 $picture = 'https://picsum.photos/800/400';
 
-                $fieldSports = $faker->randomElements($sportIds, $faker->numberBetween(1, 2));
+                // $fieldSports = $faker->randomElements($sportIds, $faker->numberBetween(1, 2));
+                $sportId = $faker->randomElement($venueSportIds);
 
-                // Ensure each field has maximum 2 sports
-                foreach ($fieldSports as $sportId) {
-                    if (count($usedSportIds[$venueId] ?? []) < 2 && !in_array($sportId, $usedSportIds[$venueId] ?? [])) {
-                        $usedSportIds[$venueId][] = $sportId;
-                    }
-                }
+                // // Ensure each field has maximum 2 sports
+                // foreach ($fieldSports as $sportId) {
+                //     if (count($usedSportIds[$venueId] ?? []) < 2 && !in_array($sportId, $usedSportIds[$venueId] ?? [])) {
+                //         $usedSportIds[$venueId][] = $sportId;
+                //     }
+                // }
 
                 // Insert field record
                 DB::table('fields')->insert([
@@ -50,7 +53,8 @@ class FieldSeeder extends Seeder
                     'price' => $price,
                     'picture' => $picture,
                     'venue_id' => $venueId,
-                    'sport_id' => $fieldSports[array_rand($fieldSports)],
+                    // 'sport_id' => $fieldSports[array_rand($fieldSports)],
+                    'sport_id' => $sportId,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

@@ -36,9 +36,16 @@ class TransactionDetailSeeder extends Seeder
 
             // Ensure there are schedules available for the selected venue
             if (count($venueSchedules) > 0) {
-                // Select between 1 and 5 schedules for the transaction
-                $scheduleCount = $faker->numberBetween(1, 5);
-                $selectedSchedules = $faker->randomElements($venueSchedules, $scheduleCount);
+                // Remove already used schedules
+                $usedSchedules = DB::table('transaction_details')
+                    ->whereIn('schedule_id', $venueSchedules)
+                    ->pluck('schedule_id')
+                    ->toArray();
+                $availableSchedules = array_diff($venueSchedules, $usedSchedules);
+
+                // Select between 1 and 5 available schedules for the transaction
+                $scheduleCount = min($faker->numberBetween(1, 5), count($availableSchedules));
+                $selectedSchedules = $faker->randomElements($availableSchedules, $scheduleCount);
 
                 // Insert the transaction details
                 foreach ($selectedSchedules as $scheduleId) {

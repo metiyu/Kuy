@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PlayTogetherSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class PlayTogetherSeeder extends Seeder
                 'description' => $faker->sentence(3),
                 'player_slot' => $faker->numberBetween(2, 20),
                 'price' => $faker->randomElement($prices),
+                'date' => Carbon::now(),
                 'owner_id' => $faker->randomElement($ownerIds),
                 'sport_id' => $faker->randomElement($sportIds),
                 'created_at' => now(),

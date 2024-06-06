@@ -1,60 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <div>
-    <div class="carousel relative w-full max-w-lg mx-auto mt-10">
-        <div class="carousel-inner relative w-full">
-            <div class="carousel-item active absolute w-full">
-                <img src="https://asset.ayo.co.id/image/venue/170902029479080.image_cropper_9F999465-83E5-49C2-97BB-3BA533CF9915-1905-000000DD24536E28_large.jpg" class="block w-full h-auto" alt="Slide 1">
-            </div>
-            <div class="carousel-item absolute w-full hidden">
-                <img src="hhttps://asset.ayo.co.id/image/venue/170902029479080.image_cropper_9F999465-83E5-49C2-97BB-3BA533CF9915-1905-000000DD24536E28_large.jpg" class="block w-full h-auto" alt="Slide 2">
-            </div>
-            <div class="carousel-item absolute w-full hidden">
-                <img src="hhttps://asset.ayo.co.id/image/venue/170902029479080.image_cropper_9F999465-83E5-49C2-97BB-3BA533CF9915-1905-000000DD24536E28_large.jpg" class="block w-full h-auto" alt="Slide 3">
-            </div>
+    <div class="flex flex-col place-content-center w-screen pt-60">
+        <p>{{ $venue->name }}</p>
+        <div class="flex items-center py-2">
+            <p class="text-sm tracking-wider text-gray-500 pl-1">📍</p>
+            <p class="text-sm tracking-wider text-gray-500">{{ $venue->location }}</p>
         </div>
-        <button class="prev absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-3 py-2">
-            Prev
-        </button>
-        <button class="next absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white px-3 py-2">
-            Next
-        </button>
+        <div class="inline-flex items-center text-sm font-normal text-gray-400">
+            @foreach ($venue->sports as $s)
+                <div class="flex items-center">
+                    <img src="{{ $s->icon }}" alt="{{ $s->name }}" class="h-5 pb-1 mr-1">
+                    <p class="text-xs tracking-wider text-gray-500 pb-0.5">{{ $s->name }}</p>
+                </div>
+                <p class="text-sm tracking-wider text-gray-500 px-1">·</p>
+            @endforeach
+        </div>
+        <p>{{ $venue->description }}</p>
+        <p>Pilih lapangan</p>
+        <input type="date" name="date" id="date">
+        <button id="changeDateBtn">Change date</button>
+        @foreach ($venue->fields as $f)
+            <p>{{ $f->name }}</p>
+            <p>{{ $f->sport->name }}</p>
+            <p>{{ $f->isIndoor == 0 ? 'indoor' : 'outdoor' }}</p>
+            <img src="{{ $f->picture }}" alt="" class="max-w-sm">
+            <div class="field-schedules" data-field-id="{{ $f->id }}">
+                @foreach ($f->schedules as $s)
+                    <p>{{ $s->date }}: {{ $s->start_hour }} - {{ $s->end_hour }} - {{ $s->transaction_details->count() == 0 ? 'Available' : 'Not Available' }} - {{ $f->getFormattedPriceAttribute() }}</p>
+                @endforeach
+            </div>
+        @endforeach
     </div>
-    </div>
 
-@endsection
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('date').value = formattedDate;
 
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const items = document.querySelectorAll('.carousel-item');
-            let currentItem = 0;
+            const changeDateBtn = document.getElementById('changeDateBtn');
 
-            function showSlide(index) {
-                items.forEach((item, i) => {
-                    item.classList.remove('active');
-                    item.classList.add('hidden');
-                    if (i === index) {
-                        item.classList.add('active');
-                        item.classList.remove('hidden');
-                    }
+            changeDateBtn.addEventListener('click', () => {
+                const dateInput = document.getElementById('date');
+                const selectedDate = dateInput.value;
+
+                // Update schedule data in the DOM based on the selected date
+                const scheduleContainers = document.querySelectorAll('.field-schedules');
+                scheduleContainers.forEach(scheduleContainer => {
+                    const fieldId = scheduleContainer.dataset.fieldId;
+                    const scheduleItems = scheduleContainer.querySelectorAll('p');
+                    scheduleItems.forEach(scheduleItem => {
+                        const scheduleDate = scheduleItem.innerText.split(':')[0];
+                        if (scheduleDate === selectedDate) {
+                            scheduleItem.style.display = 'block';
+                        } else {
+                            scheduleItem.style.display = 'none';
+                        }
+                    });
                 });
-            }
-
-            document.querySelector('.next').addEventListener('click', () => {
-                currentItem = (currentItem + 1) % items.length;
-                showSlide(currentItem);
             });
-
-            document.querySelector('.prev').addEventListener('click', () => {
-                currentItem = (currentItem - 1 + items.length) % items.length;
-                showSlide(currentItem);
-            });
-
-            showSlide(currentItem);
         });
     </script>
-</body>
-
-</html> --}}
+@endsection
