@@ -25,7 +25,7 @@
                     <a href="/venues" class="text-base font-medium text-gray-500 hover:text-gray-900">
                         Sewa Lapangan
                     </a>
-                    <a href="/play-togethers" class="text-base font-medium text-gray-500 hover:text-gray-900">
+                    <a href="/main-bareng" class="text-base font-medium text-gray-500 hover:text-gray-900">
                         Main Bareng
                     </a>
                     <a href="#" class="text-base font-medium text-gray-500 hover:text-gray-900">

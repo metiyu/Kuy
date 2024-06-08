@@ -28,6 +28,8 @@ class PlayTogetherSeeder extends Seeder
                 'player_slot' => $faker->numberBetween(2, 20),
                 'price' => $faker->randomElement($prices),
                 'date' => Carbon::now(),
+                'start_hour' => '00:00:00',
+                'end_hour' => '00:00:00',
                 'owner_id' => $faker->randomElement($ownerIds),
                 'sport_id' => $faker->randomElement($sportIds),
                 'created_at' => now(),

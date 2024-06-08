@@ -8,6 +8,7 @@
     <title>Document</title>
     {{-- @vite('resources/css/app.css','public/build/assets/*.css') --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body>
@@ -17,7 +18,7 @@
             @yield('content')
         </div>
     </div>
-
+    @include('components.footer')
 </body>
 
 </html>

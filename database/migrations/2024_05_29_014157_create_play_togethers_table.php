@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('description');
             $table->integer('player_slot');
             $table->integer('price');
-            $table->timestamp('date');
+            $table->date('date');
+            $table->time('start_hour');
+            $table->time('end_hour');
             $table->unsignedBigInteger('owner_id');
             $table->unsignedBigInteger('sport_id');
             $table->timestamps();

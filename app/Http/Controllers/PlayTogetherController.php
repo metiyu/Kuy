@@ -36,9 +36,10 @@ class PlayTogetherController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PlayTogether $playTogether)
+    public function show($id)
     {
-        //
+        $playTogether = PlayTogether::find($id);
+        return view('play-together-detail', compact('playTogether'));
     }
 
     /**

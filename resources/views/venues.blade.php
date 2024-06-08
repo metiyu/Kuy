@@ -8,7 +8,7 @@
                     <a href="/venue/{{ $v->id }}" class="text-black">
                         <div
                             class="card w-full border-none rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-200">
-                            <img src="https://asset.ayo.co.id/image/venue/165528450821896.image_cropper_1655284384009_middle.jpg"
+                            <img src="{{ $v->fields[0]->picture }}"
                                 class="w-full h-60 object-cover" alt="Lapangan Generasi Baru">
                             <div class="p-4 border">
                                 <div>

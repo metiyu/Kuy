@@ -29,4 +29,52 @@ class PlayTogether extends Model
     {
         return $this->hasMany(PlayTogetherSchedule::class, 'play_together_id');
     }
+
+    public function owner()
+    {
+    return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function loadParticipantsCount()
+    {
+        return $this->load([
+            'play_together_details' => function ($query) {
+                $query->withCount([
+                    'user' => function ($query) {
+                        $query->select('user_id');
+                    }
+                ])->groupBy('play_together_id');
+            }
+        ]);
+    }
+
+    public function getLocations()
+    {
+        return $this->play_together_schedules()
+            ->with('schedule.field.venue')
+            ->get()
+            ->map(function ($schedule) {
+                return $schedule->schedule->field->venue->location;
+            });
+    }
+
+    public function getFields()
+    {
+        return $this->play_together_schedules()
+            ->with('schedule.field')
+            ->get()
+            ->map(function ($field){
+                return $field;
+            });
+    }
+
+    public function getFieldVenueDetails()
+    {
+        return $this->play_together_schedules()
+                    ->join('schedules', 'play_together_schedules.schedule_id', '=', 'schedules.id')
+                    ->join('fields', 'schedules.field_id', '=', 'fields.id')
+                    ->join('venues', 'fields.venue_id', '=', 'venues.id')
+                    ->select('fields.name as field_name', 'venues.name as venue_name', 'venues.location as venue_location')
+                    ->get();
+    }
 }

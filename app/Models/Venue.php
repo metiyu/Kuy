@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\DB;
 class Venue extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'location',
+        'open_hour',
+        'close_hour',
+    ];
+
     public function fields()
     {
         return $this->hasMany(Field::class, 'venue_id');

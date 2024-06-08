@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PlayTogetherScheduleSeeder extends Seeder
 {
@@ -17,81 +18,97 @@ class PlayTogetherScheduleSeeder extends Seeder
         $faker = Faker::create();
 
         $playTogethers = DB::table('play_togethers')->get();
-        $fields = DB::table('fields')->get()->groupBy('venue_id');
-        $schedules = DB::table('schedules')->get()->groupBy(['field_id', 'date']); // Group schedules by field and date
+        $schedules = DB::table('schedules')
+            ->join('fields', 'schedules.field_id', '=', 'fields.id')
+            ->select('schedules.*', 'fields.sport_id as field_sport_id')
+            ->get()
+            ->groupBy('date');
 
         foreach ($playTogethers as $playTogether) {
-            // Select a random venue
-            $venueIds = $fields->keys()->toArray();
-            $randomVenueId = $faker->randomElement($venueIds);
-            $venueFields = $fields[$randomVenueId]->pluck('id')->toArray();
-
-            // Collect all schedules for the selected venue
-            $venueSchedules = [];
-            // foreach ($venueFields as $fieldId) {
-            //     foreach ($schedules as $fieldDate => $fieldSchedules) {
-            //         [$fieldIdFromSchedules, $dateFromSchedules] = explode('-', $fieldDate);
-            //         if ($fieldIdFromSchedules == $fieldId && $dateFromSchedules >= now()->toDateString()) {
-            //             $venueSchedules[$dateFromSchedules] = $fieldSchedules;
-            //         }
-            //     }
-            // }
-            foreach ($venueFields as $fieldId) {
-                foreach ($schedules as $schedule) {
-                    $fieldIdFromSchedules = $schedule->field_id;
-                    $dateFromSchedules = $schedule->date;
-                    if ($fieldIdFromSchedules == $fieldId && $dateFromSchedules >= now()->toDateString()) {
-                        $venueSchedules[$dateFromSchedules] = $schedules[$fieldId][$dateFromSchedules];
-                    }
-                }
+            // Ensure there are schedules available
+            if ($schedules->isEmpty()) {
+                continue;
             }
 
-            // Ensure there are schedules available for the selected venue
-            if (count($venueSchedules) > 0) {
-                // Select schedules with adjoining hours on the same date
-                foreach ($venueSchedules as $date => $fieldSchedules) {
-                    $adjoiningSchedules = $this->getAdjoiningSchedules($fieldSchedules);
-                    if (count($adjoiningSchedules) > 0) {
-                        // Update the date in play_togethers to match the schedule
-                        DB::table('play_togethers')
-                            ->where('id', $playTogether->id)
-                            ->update(['date' => $date]); // Update date to match schedule date
+            // Filter schedules by sport_id
+            $filteredSchedulesBySport = $schedules->map(function ($dateSchedules) use ($playTogether) {
+                return $dateSchedules->filter(function ($schedule) use ($playTogether) {
+                    return $schedule->field_sport_id == $playTogether->sport_id;
+                });
+            })->filter(function ($dateSchedules) {
+                return !$dateSchedules->isEmpty();
+            });
 
-                        // Insert the transaction details
-                        foreach ($adjoiningSchedules as $scheduleId) {
-                            DB::table('play_together_schedules')->insert([
-                                'play_together_id' => $playTogether->id,
-                                'schedule_id' => $scheduleId,
-                                'created_at' => now(),
-                                'updated_at' => now(),
-                            ]);
-                        }
-                        break; // Stop processing other dates once found suitable schedules
+            // Ensure there are schedules available after filtering
+            if ($filteredSchedulesBySport->isEmpty()) {
+                continue;
+            }
+
+            // Select a random date
+            $randomDate = $faker->randomElement($filteredSchedulesBySport->keys());
+            $dateSchedules = $filteredSchedulesBySport->get($randomDate);
+
+            // Filter schedules with adjoining hours
+            $filteredSchedules = $this->getAdjoinedSchedules($dateSchedules);
+
+            // Insert the play together schedules
+            if (count($filteredSchedules) > 0) {
+                $startTime = $filteredSchedules->sortBy('start_hour')->first()->start_hour;
+                $endTime = $filteredSchedules->sortByDesc('end_hour')->first()->end_hour;
+                $date = Carbon::createFromFormat('Y-m-d', $randomDate);
+
+                foreach ($filteredSchedules as $schedule) {
+                    // Check if the combination already exists
+                    $existingRecord = DB::table('play_together_schedules')
+                        ->where('play_together_id', $playTogether->id)
+                        ->where('schedule_id', $schedule->id)
+                        ->first();
+
+                    if (!$existingRecord) {
+                        DB::table('play_together_schedules')->insert([
+                            'play_together_id' => $playTogether->id,
+                            'schedule_id' => $schedule->id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
                     }
                 }
+
+                // Update the date, start_hour, and end_hour in play_togethers
+                DB::table('play_togethers')
+                    ->where('id', $playTogether->id)
+                    ->update([
+                        'date' => $date->toDateString(),
+                        'start_hour' => $startTime,
+                        'end_hour' => $endTime
+                    ]);
             }
         }
     }
 
     /**
-     * Get adjoining schedules on the same date with at least 1-hour gap.
+     * Get adjoined schedules for a given date.
      *
-     * @param array $schedules
-     * @return array
+     * @param \Illuminate\Support\Collection $dateSchedules
+     * @return \Illuminate\Support\Collection
      */
-    private function getAdjoiningSchedules($schedules): array
+    private function getAdjoinedSchedules($dateSchedules)
     {
-        $adjoiningSchedules = [];
-        $sortedSchedules = collect($schedules)->sortBy('start_hour')->values();
-
+        $adjoinedSchedules = collect();
         $previousEndHour = null;
-        foreach ($sortedSchedules as $schedule) {
-            if (!$previousEndHour || $schedule->start_hour->get($previousEndHour->copy()->addHour())) {
-                $adjoiningSchedules[] = $schedule->id;
-                $previousEndHour = $schedule->end_hour;
+
+        foreach ($dateSchedules->sortBy('start_hour') as $schedule) {
+            $startHour = Carbon::createFromFormat('H:i:s', $schedule->start_hour);
+            $endHour = Carbon::createFromFormat('H:i:s', $schedule->end_hour);
+
+            if ($previousEndHour === null || $startHour->eq($previousEndHour)) {
+                $adjoinedSchedules->push($schedule);
+                $previousEndHour = $endHour;
+            } else {
+                break;
             }
         }
 
-        return $adjoiningSchedules;
+        return $adjoinedSchedules;
     }
 }
