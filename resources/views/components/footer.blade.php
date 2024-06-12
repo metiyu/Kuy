@@ -1,12 +1,12 @@
-<footer class="flex flex-col">
-    <div class="mx-auto py-5 px-0 xl:w-9/12">
+<footer class="flex flex-col border-t-4">
+    <div class="mx-auto py-8 px-0 xl:w-9/12">
         <div class="grid grid-cols-6 gap-4">
             <div class="mx-auto p-0 col-11 md:w-2/12" style="min-width: 224px">
                 <a class="navbar-brand" href="#"><img src="/assets/logotype.png"
                         alt="Ayo Indonesia Logo" class="h-12 w-auto"></a>
                 <div class="mb-2 row">
                     <div class="col-12">
-                        <h6 class="px-3 pt-5 mb-0">AoL Website Programming | LA06 | Kelompok 7</h6>
+                        <p class="px-3 pt-5 mb-0 text-xs">AoL WebProg · LA06 · Kelompok 7</p>
                     </div>
                 </div>
             </div>

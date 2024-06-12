@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class PlayTogetherDetail extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'play_together_id',
+        'user_id'
+    ];
     public function play_together()
     {
         return $this->belongsTo(PlayTogether::class, 'play_together_id');

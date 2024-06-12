@@ -9,6 +9,15 @@ class Field extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'is_indoor',
+        'price',
+        'picture',
+        'venue_id',
+        'sport_id',
+    ];
+    
     protected $appends = ['formatted_price'];
 
     public function getFormattedPriceAttribute()

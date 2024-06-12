@@ -1,3 +1,4 @@
+<?php use Illuminate\Support\Facades\Session; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,7 @@
     <title>Document</title>
     {{-- @vite('resources/css/app.css','public/build/assets/*.css') --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -18,7 +19,10 @@
             @yield('content')
         </div>
     </div>
-    @include('components.footer')
+    <div>
+        @include('components.footer')
+    </div>
+    @include('sweetalert::alert')
 </body>
 
 </html>

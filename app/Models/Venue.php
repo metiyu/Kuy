@@ -16,6 +16,7 @@ class Venue extends Model
         'location',
         'open_hour',
         'close_hour',
+        'owner_id',
     ];
 
     public function fields()

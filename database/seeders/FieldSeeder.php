@@ -16,7 +16,7 @@ class FieldSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $venueIds = range(1, 20);
+        $venueIds = range(1, 50);
         $sportIds = range(1, 10);
 
         // Shuffle the arrays to randomize venue and sport selection
