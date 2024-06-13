@@ -1,4 +1,4 @@
-# Final Project for Website Programming Course
+# Final Project for COMP6738049 - Web Programming Course
 
 This repository contains the AoL for COMP6738049 - Web Programming course.
 Our team members are:
