@@ -1,6 +1,12 @@
 # Final Project for Website Programming Course
 
-This repository contains the final project for the Website Programming course.
+This repository contains the AoL for COMP6738049 - Web Programming course.
+Our team members are:
+- 2540124021- Edrick Setiawan
+- 2540118624 - Edward Federick
+- 2502006253 - Gabriel Matthew Mintana
+- 2501980961 - Richard Gregorius
+- 2301937362 - Siti Shafiyah Nurnabilah Laksana
 
 ## Versions Used
 
@@ -12,7 +18,11 @@ This repository contains the final project for the Website Programming course.
 
 ## About This Project
 
-This project serves as the final assignment for the Website Programming course. It is built using Laravel, a web application framework known for its expressive and elegant syntax.
+This project is the final project of the COMP6738049 - Web Programming course. This project is built using Laravel 11 and Tailwind, a web application framework accompanied by CSS framework that can be composed to build any design, directly in your markup.
+
+This project is about an all-in-one platform for renting courts or finding friends to play with. Users can view the schedule of the courts and book online. Users can also find friends to play with for the sports they like. Vendors can also list their sports venues.
+
+Making sports easier and more fun! 
 
 ## Learning Resources
 
