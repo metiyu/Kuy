@@ -1,12 +1,6 @@
 # Final Project for COMP6738049 - Web Programming Course
 
 This repository contains the AoL for COMP6738049 - Web Programming course.
-Our team members are:
-- 2540124021- Edrick Setiawan
-- 2540118624 - Edward Federick
-- 2502006253 - Gabriel Matthew Mintana
-- 2501980961 - Richard Gregorius
-- 2301937362 - Siti Shafiyah Nurnabilah Laksana
 
 ## Versions Used
 
@@ -18,7 +12,7 @@ Our team members are:
 
 ## About This Project
 
-This project is the final project of the COMP6738049 - Web Programming course. This project is built using Laravel 11 and Tailwind, a web application framework accompanied by CSS framework that can be composed to build any design, directly in your markup.
+This project is the final project of the COMP6738049 - Web Programming course. This project was inspired by the website https://ayo.co.id/. This project is built using Laravel 11 and Tailwind, a web application framework accompanied by a CSS framework that can be composed to build any design, directly in your markup.
 
 This project is about an all-in-one platform for renting courts or finding friends to play with. Users can view the schedule of the courts and book online. Users can also find friends to play with for the sports they like. Vendors can also list their sports venues.
 
